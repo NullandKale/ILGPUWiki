@@ -7,11 +7,12 @@ During this transitional period all old documentation will be available still. Y
 
 The following is the table of contents for the new tutorial:
 
-# ILGPUView Tutorials
+# ILGPU Tutorials
 
 ## Primers (How a GPU works)
 
-This series introduces how a GPU works. If you have programmed with CUDA or OpenCL before you can probably skip this.
+This series introduces how a GPU works and will not talk much about ILGPU. If you have programmed with CUDA or OpenCL 
+before you can probably skip this.
 
 01 [A GPU is not a CPU](Primer_01.md)
 > This page will provide a quick rundown the basics of how kernels (think GPU programs) run.
@@ -37,6 +38,11 @@ If you need a primer look to something like [this for Cuda](https://developer.nv
 > This is where it all comes together. This covers actual code, on the actual GPU (or the CPU if you are testing / dont have a GPU). 
 
 04 Structs
+Outline: 
+* ILGPU needs **data** not refs | whats not allowed in structs.
+ * storing data part 1 | An array of structs or a struct of arrays.
+ * Ok but seriously how do you get by without refs? storing data part 2 | flattening trees with id's example.
+
 
 05 Algorithms 1 Math
 
@@ -48,3 +54,46 @@ Well at least I think. This is where I will put ILGPUView bitmap shader things I
 2. Cloud Simulation
 2. 2D Physics Simulation
 3. Other things I see on shadertoy
+
+
+And this is the old Table of Contents:
+## Table of Contents
+
+#### Overview
+
+[Home](Old-Home.md)
+
+[Getting Started](Getting-Started.md)
+
+[Accelerators & Streams](Accelerators-and-Streams.md)
+
+[MemoryBuffers & Views](Memory-Buffers-and-Views.md)
+
+[Kernels](Kernels.md)
+
+[Shared Memory](Shared-Memory.md)
+
+[Math Functions](Math-Functions.md)
+
+#### Advanced
+
+[Dynamically Specialized Kernels](Dynamically-Specialized-Kernels.md)
+
+[Debugging & Profiling](Debugging-and-Profiling.md)
+
+[Inside ILGPU](Inside-ILGPU.md)
+
+
+#### Upgrade Guides
+
+[Upgrade v0.1.X to v0.2.X](Upgrade-v0.1.X-to-v0.2.X.md)
+
+[Upgrade v0.3.X to v0.5.X](Upgrade-v0.3.X-to-v0.5.X.md)
+
+[Upgrade v0.6.X to v0.7.X](Upgrade-v0.6.X-to-v0.7.X.md)
+
+[Upgrade v0.7.X to v0.8.X](Upgrade-v0.7.X-to-v0.8.X.md)
+
+[Upgrade v0.8.0 to v0.8.1](Upgrade-v0.8.0-to-v0.8.1.md)
+
+[Upgrade v0.8.X to v0.9.X](Upgrade-v0.8.X-to-v0.9.X.md)

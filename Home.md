@@ -56,8 +56,8 @@ Well at least I think. This is where I will put ILGPUView bitmap shader things I
 3. Other things I see on shadertoy
 
 
-And this is the old Table of Contents:
-## Table of Contents
+# Old Table of Contents
+This is the old Table of Contents:
 
 #### Overview
 

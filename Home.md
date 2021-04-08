@@ -3,7 +3,8 @@
 We are currently in the process of creating new documentation. This should be an awesome update that will hopefully 
 be beginner friendly while still short enough that GPGPU experts will not get bored.
 
-During this transitional period all old documentation will be available still. You can find it [here](Old-Home.md).
+During this transitional period all old documentation will be available still. You can find it [here](Old-Home.md)
+or at the bottom of this page under the table of contents for the new tutorial.
 
 The following is the table of contents for the new tutorial:
 

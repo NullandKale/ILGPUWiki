@@ -40,8 +40,8 @@ If you need a primer look to something like [this for Cuda](https://developer.nv
 03 [Kernels and Simple Programs](Tutorial_03.md) (0.10.1)
 > This is where it all comes together. This covers actual code, on the actual GPU (or the CPU if you are testing / dont have a GPU). 
 
-04 Structs
-
+04 [Structs and the N-body problem](Tutorial_04.md)
+> This tutorial actually does something! We use computing the N-body problem as a sample of how to better manage Host / Device memory.
 
 
 05 Algorithms 1 Math

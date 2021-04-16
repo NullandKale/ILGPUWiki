@@ -15,6 +15,8 @@ The following is the table of contents for the new tutorial:
 This series introduces how a GPU works and will not talk much about ILGPU. If you have programmed with CUDA or OpenCL 
 before you can probably skip this.
 
+00 [Setting up ILGPU](Primer_00.md)
+
 01 [A GPU is not a CPU](Primer_01.md)
 > This page will provide a quick rundown the basics of how kernels (think GPU programs) run.
 
@@ -39,10 +41,7 @@ If you need a primer look to something like [this for Cuda](https://developer.nv
 > This is where it all comes together. This covers actual code, on the actual GPU (or the CPU if you are testing / dont have a GPU). 
 
 04 Structs
-Outline: 
-* ILGPU needs **data** not refs | whats not allowed in structs.
- * storing data part 1 | An array of structs or a struct of arrays.
- * Ok but seriously how do you get by without refs? storing data part 2 | flattening trees with id's example.
+
 
 
 05 Algorithms 1 Math

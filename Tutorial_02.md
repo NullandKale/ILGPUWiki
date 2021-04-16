@@ -69,7 +69,7 @@ API that the kernels / GPU will interact with.
 Inside the kernel the ArrayView works exactly like you would expect a normal array to. Again, more on that in the 
 Kernel tutorial.
 
-### Sample 02|01
+### Memory Sample
 All device side memory management happens in the host code through the MemoryBuffer.
 The sample goes over the basics of managing memory via MemoryBuffers. There will be far more
 in depth memory management in the later tutorials.

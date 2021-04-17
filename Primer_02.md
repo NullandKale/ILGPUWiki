@@ -7,7 +7,7 @@ Ok, buckle up.
 
 ## Memory and bandwidth and threads. Oh my!
 
-#### Computers need memory, and memory is slow<sup>0</sup>. (Like, really slow)
+### Computers need memory, and memory is slow<sup>0</sup>. (Like, really slow)
 Back in the day (I assume, the first computer I remember using had DDR-200) computer memory
  was FAST. Most of the time the limiting factor was the CPU, though correctly timing video output was also
 a driving force. As an example, the C64 ran the memory at 2x the CPU frequency so the VIC-II 
@@ -20,12 +20,16 @@ Why is memory slow? To be honest, it seems to me that it's caused by two things:
 1. Physics<br/>
 Programmers like to think of computers as an abstract thing, a platonic ideal. 
 But here in the real world there are no spherical cows, no free lunch. Memory values are ACTUAL
-ELECTRONS traveling through silicon and precious metals. In general, the farther from the thing doing the math the ACTUAL
-ELECTRONS are the slower it is to access. Wow... computers are magic.
+ELECTRONS traveling through silicon and precious metals. 
+
+In general, the farther from the thing doing the math the ACTUAL ELECTRONS are the slower it is
+to access.
 
 2. We ~~need~~ want a lot of memory.<br/>
 We can that is almost as fast as our processors, but it must literally be directly made into the processor cores in silicon. 
 Not only is this is very expensive, the more memory in silicon the less room for processor stuff. 
+
+### How do processors deal with slow memory?
 
 This leads to an optimization problem. Modern processor designers use a complex system of tiered 
 memory consisting of several layers of small, fast, on die memory and large, slow, distant, off die memory.
@@ -37,7 +41,7 @@ the cache, closer to the processor. This way if you do need the memory at X+1 it
 
 I am getting off topic. For a more detailed explaination, see this thing I found on [google](https://formulusblack.com/blog/compute-performance-distance-of-data-as-a-measure-of-latency/).
 
-What does this mean for the ILGPU?
+# What does this mean for the ILGPU?
 
 #### GPU's have memory, and memory is slow. 
 
@@ -47,13 +51,13 @@ GPU's on paper have TONS of memory bandwidth, my GPU has around 10x the memory b
 If we go back into spherical cow territory and ignore a ton of important details, we can illustrate an 
 important quirk in GPU design that is directly impacts performance.
 
-My Ryzen 5 3600 with dual channel DDR4 it gets around 34 GB/s of memory bandwidth. The GDDR6 in my RTX 2060 gets around 336 GB/s of memory bandwidth.
+My CPU, a Ryzen 5 3600 with dual channel DDR4, gets around 34 GB/s of memory bandwidth. The GDDR6 in my GPU, a RTX 2060, gets around 336 GB/s of memory bandwidth.
 
 But lets compare bandwidth per thread.
 
-Ryzen 5 3600 34 GB/s / 12 threads = 2.83 GB/s per thread
+CPU: Ryzen 5 3600 34 GB/s / 12 threads = 2.83 GB/s per thread
 
-RTX 2060 336 GB/s / (30 SM's * 512 threads<sup>1</sup>) = 0.0218 GB/s or just *22.4 MB/s per thread*
+GPU: RTX 2060 336 GB/s / (30 SM's * 512 threads<sup>1</sup>) = 0.0218 GB/s or just *22.4 MB/s per thread*
 
 #### So what?
 In the end computers need memory because programs need memory. There are a few things I think about as I program that I think help:
@@ -64,11 +68,11 @@ In the end computers need memory because programs need memory. There are a few t
 basically if threads are accessing memory in a linear way that the GPU can detect it can send one memory access for the whole chunk
 of threads. 
 
-Again, this all boils down to the very simple notion that memory is slow, and it gets slower the farther it gets from the processor
+Again, this all boils down to the very simple notion that memory is slow, and it gets slower the farther it gets from the processor.
 
 > <sup>0</sup>
 > This is obviously a complex topic. In general modern memory bandwidth has a speed, and a latency problem. They
-> are different, but in subtle ways. If you are very interested in this I would do some more research, I am just 
+> are different, but in subtle ways. If you are interested in this I would do some more research, I am just 
 > some random dude on the internet.
 
 > <sup>1</sup>

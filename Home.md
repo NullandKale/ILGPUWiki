@@ -12,8 +12,8 @@ The following is the table of contents for the new tutorial:
 
 ## Primers (How a GPU works)
 
-This series introduces how a GPU works and will not talk much about ILGPU. If you have programmed with CUDA or OpenCL 
-before you can probably skip this.
+This series introduces how a GPU works and what ILGPU does. If you have programmed with CUDA or OpenCL 
+before you can probably skip 01 and 02.
 
 00 [Setting up ILGPU](Primer_00.md)
 

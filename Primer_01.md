@@ -2,17 +2,34 @@
 This page will provide a quick rundown the basics of how kernels (think GPU programs) run.
 If you are already familiar with CUDA or OpenCL programs you can probably skip this.
 
+To steal a quote from a very good [talk](https://www.youtube.com/watch?v=uvVy3CqpVbM) that you should *probably* watch.
+
+> You **cannot** program the GPU like its a CPU
+> You must pay attention to 3 things
+> 1. Memory Access
+>
+> 2. Data Locality
+>
+> 3. Threading  
+
 ## A GPU is not a CPU
 If you will allow a little bit of **massive oversimplification**, this is pretty easy to understand.
 
-A traditional processor has a very simple cycle: fetch, decode, execute. It grabs an instruction
-from memory (fetch), figures out how to perform said instruction (decode), and does the instruction 
-(execute). This linearity is fine for most programs because CPUs are super fast, and CPUs also have 
-multiple cores which can each do the cycle. What happens when you have an algorithm that can be processed 
-in parallel? You can throw multiple cores at the problem, but in the end each core will be running 
-a stream of instructions, likely the *same* stream of instructions. 
+### How does a CPU work?
 
-Both GPUs and CPUs try and exploit this fact, but use very different methods.
+A traditional processor has a very simple cycle: fetch, decode, execute. 
+
+It grabs an instruction from memory (the fetch), figures out how to perform said instruction (the decode), 
+and does the instruction (the execute). This cycle then repeats for all the instructions in your algorithm.
+Executing this linear stream of instructions is fine for most programs because CPUs are super fast, and most
+algorithms are serial.
+
+What happens when you have an algorithm that can be processed in parallel? A CPU has multiple cores, each
+doing its own fetch, decode, execute. You can spread the algorithm across all the cores on the CPU, but 
+in the end each core will still be running a stream of instructions, likely the *same* stream of instructions,
+but with *different* data.
+
+GPUs and CPUs both try and exploit this fact, but use very two different methods.
 
 ##### CPU | SIMD: Single Instruction Multiple Data.
 CPUs have a trick for parallel programs called SIMD. These are a set of instructions
@@ -22,7 +39,6 @@ Lets say a CPU has an add instruction:
 > ADD RegA RegB
 
 Which would perform
-
 > RegA = RegB + RegA
 
 The SIMD version would be:

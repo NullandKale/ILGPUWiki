@@ -33,7 +33,7 @@ public static class Program
 
         int width = 500;
         int height = 500;
-        int particleCount = 100; // my GPU can handle around 10,000 with
+        int particleCount = 100; // my GPU can handle around 10,000
 
         byte[] h_bitmapData = new byte[width * height * 3];
 

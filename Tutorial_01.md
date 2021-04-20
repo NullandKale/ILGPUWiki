@@ -25,6 +25,7 @@ Every ILGPU program will require at least 1 Accelerator.
 Currently there are 3 Accelerator types CPU, Cuda, and OpenCL, 
 as well as an abstract Accelerator.
 
+### Sample 01|01
 ```c#
 using ILGPU;
 using ILGPU.Runtime;
@@ -111,11 +112,10 @@ accelerators.
 * requires: using ILGPU.Runtime
 
 ### Sample 01|02
-There is currently no guaranteed way to find the most powerful accelerator
-usable from only software. The following is a pretty simple way
+There is currently no guaranteed way to find the most powerful accelerator. If you are programming for 
+known hardware you can just hardcode it. However, if you do need a method, the following is a pretty simple way
 to get what is likely the best accelerator if you have zero or one GPUs. If you have multiple
-GPUs or something uncommon you may need something more complex. In general you also
-probably want to store your context and accelerator as a member variable 
+GPUs or something uncommon you may need something more complex.
 
 ```C#
 using System;

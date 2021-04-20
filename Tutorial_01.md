@@ -9,34 +9,13 @@ I believe it also stores some global state.
 * requires: using ILGPU;
 * basic constructing: Context context = new Context();
 
-### Sample 01|01 :
-```C#
-using System;
-using ILGPU;
-
-namespace Tutorial
-{
-    class Program
-    {
-        static void Main()
-        {
-            Console.WriteLine("Hello Tutorial 01!");
-            using Context context = new Context();
-            // this doesnt really print anything special
-            Console.WriteLine("Context: " + context.ToString());
-        }
-    }
-}
-```
-
-
 A context object, as well as most instances of classes that 
 require a context, require dispose calls to prevent memory 
 leaks. In most simple cases you can use the using pattern as 
- shown above to make it harder to mess up.
+shown above to make it harder to mess up.
 
 You can also use the ContextFlags enum to change many settings.
-This will be the topic of a future tutorial. 
+We will talk about those at the end of this tutorial. 
 
 For now all we need is a basic context.
 
@@ -45,6 +24,56 @@ In ILGPU the accelerator repersents a hardware or software GPU.
 Every ILGPU program will require at least 1 Accelerator.
 Currently there are 3 Accelerator types CPU, Cuda, and OpenCL, 
 as well as an abstract Accelerator.
+
+```c#
+using ILGPU;
+using ILGPU.Runtime;
+using ILGPU.Runtime.CPU;
+using ILGPU.Runtime.Cuda;
+using ILGPU.Runtime.OpenCL;
+using System;
+
+public static class Program
+{
+    public static void Main()
+    {
+        using Context context = new Context();
+
+        // Prints all accelerators.
+        foreach(var id in Accelerator.Accelerators)
+        {
+            using Accelerator accelerator = Accelerator.Create(context, id);
+            Console.WriteLine(accelerator);
+            accelerator.PrintInformation();
+            Console.WriteLine();
+        }
+
+        // Prints the CPUAccelerator
+        using CPUAccelerator CPUDevice = new CPUAccelerator(context);
+        Console.WriteLine("This is the CPU device:");
+        CPUDevice.PrintInformation();
+        Console.WriteLine();
+
+        // Prints all Cuda Accelerators 
+        foreach (var id in CudaAccelerator.CudaAccelerators)
+        {
+            using CudaAccelerator accelerator = new CudaAccelerator(context, id);
+            Console.WriteLine("Found a Cuda device:");
+            accelerator.PrintInformation();
+            Console.WriteLine();
+        }
+
+        // Prints all OpenCL Accelerators
+        foreach (var id in CLAccelerator.CLAccelerators)
+        {
+            using CLAccelerator accelerator = new CLAccelerator(context, id);
+            Console.WriteLine("Found a OpenCL device:");
+            accelerator.PrintInformation();
+            Console.WriteLine();
+        }
+    }
+}
+```
 
 ##### CPUAccelerator
 * requires no special hardware... well no more than c# does.
@@ -67,7 +96,7 @@ newer should work. Some features require newer cards. Feature support should<sup
 ##### CLAccelerator
 * requires an OpenCL 2.0+ capable gpu
 * imports: using ILGPU.OpenCL, using ILGPU.Runtime;
-* basic constructing: Accelerator accelerator = new CLAccelerator(context, CLAccelerator.AllCLAccelerators.FirstOrDefault());
+* basic constructing: Accelerator accelerator = new CLAccelerator(context, CLAccelerator.CLAccelerator[0]);
 
 If you have one or more AMD or Intel GPU's that are supported this is
 the accelerator for you. Technically Nvidia GPU's support OpenCL but 
@@ -84,8 +113,8 @@ accelerators.
 ### Sample 01|02
 There is currently no guaranteed way to find the most powerful accelerator
 usable from only software. The following is a pretty simple way
-to get what is likely the best accelerator. If you have multiple
-GPU's or something uncommon you may need something more complex. In general you also
+to get what is likely the best accelerator if you have zero or one GPUs. If you have multiple
+GPUs or something uncommon you may need something more complex. In general you also
 probably want to store your context and accelerator as a member variable 
 
 ```C#
@@ -116,9 +145,9 @@ namespace Tutorial
             {
                 accelerator = new CudaAccelerator(context);
             }
-            else if (CLAccelerator.AllCLAccelerators.Length > 0 && !debug)
+            else if (CLAccelerator.CLAccelerators.Length > 0 && !debug)
             {
-                accelerator = new CLAccelerator(context, CLAccelerator.AllCLAccelerators.FirstOrDefault());
+                accelerator = new CLAccelerator(context, CLAccelerator.CLAccelerators.FirstOrDefault());
             }
             else
             {

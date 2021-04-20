@@ -11,8 +11,8 @@ I believe it also stores some global state.
 
 A context object, as well as most instances of classes that 
 require a context, require dispose calls to prevent memory 
-leaks. In most simple cases you can use the using pattern as 
-shown above to make it harder to mess up.
+leaks. In most simple cases you can use the using pattern as such: using Context context = new Context();
+to make it harder to mess up. You can also see this in the first sample below.
 
 You can also use the ContextFlags enum to change many settings.
 We will talk about those at the end of this tutorial. 

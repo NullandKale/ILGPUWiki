@@ -112,10 +112,11 @@ public static class Program
 {
     static void Main()
     {
+        // Initialize ILGPU.
         Context context = Context.CreateDefault();
         Accelerator accelerator = context.CreateCPUAccelerator(0);
 
-        //Load the data.
+        // Load the data.
         var deviceData = accelerator.Allocate1D(new int[] { 0, 1, 2, 4, 5, 6, 7, 8, 9 });
         var deviceOutput = accelerator.Allocate1D<int>(10_000);
 

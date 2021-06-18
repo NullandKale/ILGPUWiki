@@ -34,7 +34,7 @@ If you need a primer look to something like [this for Cuda](https://developer.nv
 > It's mostly boiler plate and does no computation but it does print info about your GPU if you have one.
 > There is some advice about ILGPU in here that makes it worth the quick read.
 
-02 [MemoryBuffers and ArrayViews](Tutorial_02.md) (ILGPU version 0.10.1)
+02 [MemoryBuffers and ArrayViews](Tutorial_02.md) (ILGPU version 1.0.0 beta)
 > This tutorial covers the basics for Host / Device memory management.
 
 03 [Kernels and Simple Programs](Tutorial_03.md) (ILGPU version 0.10.1)

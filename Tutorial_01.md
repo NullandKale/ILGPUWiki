@@ -66,18 +66,19 @@ public static class Program
 {
     public static void Main()
     {
-        using Context context = Context.Create(builder => builder.AllAccelerators());
+        // Builds a context that has all possible accelerators.
+        using Context context = Context.CreateDefault();
 
-        //builds a context that only has CPU accelerators.
+        // Builds a context that only has CPU accelerators.
         //using Context context = Context.Create(builder => builder.CPU());
 
-        //builds a context that only has Cuda accelerators.
+        // Builds a context that only has Cuda accelerators.
         //using Context context = Context.Create(builder => builder.Cuda());
 
-        //builds a context that only has OpenCL accelerators.
+        // Builds a context that only has OpenCL accelerators.
         //using Context context = Context.Create(builder => builder.OpenCL());
 
-        //builds a context with only OpenCL and Cuda acclerators.
+        // Builds a context with only OpenCL and Cuda acclerators.
         //using Context context = Context.Create(builder =>
         //{
         //    builder
@@ -93,7 +94,7 @@ public static class Program
             Console.WriteLine(GetInfoString(accelerator));
         }
 
-        //prints all CPU accelerators.
+        // Prints all CPU accelerators.
         foreach (CPUDevice d in context.GetCPUDevices())
         {
             using CPUAccelerator accelerator = (CPUAccelerator)d.CreateAccelerator(context);
@@ -101,8 +102,7 @@ public static class Program
             Console.WriteLine(GetInfoString(accelerator));
         }
 
-        //prints all Cuda accelerators.
-        // BETA NOTE: this currently fails if you have no Cuda devices
+        // Prints all Cuda accelerators.
         foreach (Device d in context.GetCudaDevices())
         {
             using Accelerator accelerator = d.CreateAccelerator(context);
@@ -110,8 +110,7 @@ public static class Program
             Console.WriteLine(GetInfoString(accelerator));
         }
 
-        //prints all OpenCL accelerators.
-        // BETA NOTE: this currently fails if you have no OpenCL devices
+        // Prints all OpenCL accelerators.
         foreach (Device d in context.GetCLDevices())
         {
             using Accelerator accelerator = d.CreateAccelerator(context);
@@ -130,7 +129,7 @@ public static class Program
 ```
 
 ##### CPUAccelerator
-* requires no special hardware... well no more than c# does.
+* requires no special hardware... well no more than C# does.
 * requires: using ILGPU.CPU; and using ILGPU.Runtime;
 * basic constructing: Accelerator accelerator = context.CreateCPUAccelerator(0);
 
@@ -174,55 +173,36 @@ accelerators.
 * requires: using ILGPU.Runtime
 
 ### Sample 01|03
-There is currently no guaranteed way to find the most powerful accelerator. If you are programming for 
-known hardware you can just hardcode it. However, if you do need a method, the following is a pretty simple way
-to get what is likely the best accelerator if you have zero or one GPUs. If you have multiple
-GPUs or something uncommon you may need something more complex.
+There is no guaranteed way to find the most powerful accelerator. If you are programming for 
+known hardware you can, and should just hardcode it. However, if you do need a method, ILGPU provides two.
+
+For a single device: context.GetPreferredDevice(preferCPU);
+
+For multiple devices: context.GetPreferredDevices(preferCPU, matchingDevicesOnly);
 
 ```C#
 using System;
-
 using ILGPU;
 using ILGPU.Runtime;
-using ILGPU.Runtime.CPU;
-using ILGPU.Runtime.Cuda;
-using ILGPU.Runtime.OpenCL;
-
 public static class Program
 {
-    // I normally have an easy to change bool or class parameter that forces
-    // the cpu accelerator to aid debugging.
-    public static readonly bool debug = false;
     static void Main()
     {
         using Context context = Context.Create(builder => builder.AllAccelerators());
         Console.WriteLine("Context: " + context.ToString());
 
-        Device d = null;
+        Device d = context.GetPreferredDevice(preferCPU: false);
+        Accelerator a = d.CreateAccelerator(context);
 
-        // get cuda devices first, in general cuda is faster than OpenCL
-        // I guess thats my hot take for the example lol
-        if(d is null && !debug && (context.GetCudaDevices().Count > 0))
+        a.PrintInformation();
+        a.Dispose();
+
+        foreach(Device device in context.GetPreferredDevices(preferCPU: false, matchingDevicesOnly: false))
         {
-            d = context.GetCudaDevice(0);
+            Accelerator accelerator = device.CreateAccelerator(context);
+            accelerator.PrintInformation();
+            accelerator.Dispose();
         }
-
-        // get OpenCL devices next, any gpu is better than no gpu right?
-        if (d is null && !debug && (context.GetCLDevices().Count > 0))
-        {
-            d = context.GetCLDevice(0);
-        }
-
-        // get the cpu device :(
-        if (d is null)
-        {
-            d = context.GetCPUDevice(0);
-        }
-
-        Accelerator accelerator = d.CreateAccelerator(context);
-
-        accelerator.PrintInformation();
-        accelerator.Dispose();
     }
 }
 ```
@@ -234,7 +214,9 @@ As you can see in the above sample the context is obtained first and then
 the accelerator. We dispose the accelerator explicitly by calling accelerator.Dispose();
 and then only afterwards dispose the context automatically via the using pattern.
 
-In more complex programs you will have a more complex tree of memory, kernels, streams, and accelerators
+The Device instances do not need to be disposed.
+
+In more complex programs you may have a more complex tree of memory, kernels, streams, and accelerators
  to dispose of correctly.
 
 Lets assume this is the structure of some program:
@@ -253,7 +235,7 @@ be disposed. However before we can't dispose the context we must dispose the Cud
 
 Ok, this tutorial covers most of the boiler plate code needed.
 
-The next tutorial covers memory, after that I PROMISE we will do something more interesting. I just have to write them first.
+The next tutorial covers memory.
 
 > <sup>0</sup> Should is the programmers favorite word
 >

@@ -19,6 +19,8 @@ In most computers the host and device each have there own seperate memory. There
 to pretend that they share memory in ILGPU, like ExchangeBuffers (more on that in a more advanced 
 memory tutorial), but for now I will manage both sides manually.
 
+NOTE: This "Device" is the actual hardware described by the Device class in ILGPU.
+
 To use memory you need to be able to allocate it, copy data into it, and copy data out of it.
 ILGPU provides an interface to do this. 
 

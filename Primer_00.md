@@ -17,7 +17,7 @@ Technically ILGPU supports F# but I don't use F# enough to really tutorialize it
 
 If enough people care I can record a short video of this process, but I expect this will be enough for most programmers.
 
-1. Install the most recent [.Net SDK](https://dotnet.microsoft.com/download/visual-studio-sdks) for your chosen platform and/or [Visual Studio](https://visualstudio.microsoft.com/) on Windows.
+1. Install the most recent [.Net SDK](https://dotnet.microsoft.com/download/visual-studio-sdks) for your chosen platform.
 2. Create a new C# project.
 ![dotnet new console](Images/newProject.png?raw=true)
 3. Add the ILGPU package

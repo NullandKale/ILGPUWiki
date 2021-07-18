@@ -117,18 +117,18 @@ public static class Program
         Accelerator accelerator = context.CreateCPUAccelerator(0);
 
         // Load the data.
-        var deviceData = accelerator.Allocate1D(new int[] { 0, 1, 2, 4, 5, 6, 7, 8, 9 });
+        var deviceData = accelerator.Allocate1D(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         var deviceOutput = accelerator.Allocate1D<int>(10_000);
 
         // load / compile the kernel
         var loadedKernel = accelerator.LoadAutoGroupedStreamKernel(
-        (LongIndex1D i, ArrayView<int> data, ArrayView<int> output) =>
+        (Index1D i, ArrayView<int> data, ArrayView<int> output) =>
         {
             output[i] = data[i % data.Length];
         });
 
         // tell the accelerator to start computing the kernel
-        loadedKernel(deviceOutput.Length, deviceData.View, deviceOutput.View);
+        loadedKernel((int)deviceOutput.Length, deviceData.View, deviceOutput.View);
 
         // wait for the accelerator to be finished with whatever it's doing
         // in this case it just waits for the kernel to finish.

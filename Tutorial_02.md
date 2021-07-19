@@ -39,32 +39,20 @@ pointer to the memory that was allocated on the Device.
 
 * always obtained from an Accelerator
 * requires: using ILGPU.Runtime;
-* basic constructing: MemoryBuffer1D\<int, Stride1D.Dense\> OnDeviceInts = accelerator.Allocate\<int\>(1000);
+* basic constructing: MemoryBuffer1D\<int, Stride1D.Dense\> OnDeviceInts = accelerator.Allocate1D\<int\>(1000);
 
-#### CopyFrom
+#### CopyFromCPU
 After allocating a MemoryBuffer you will probably want to load data into it. This can be done 
-using the CopyFrom method of a MemoryBuffer.
+using the CopyFromCPU method of a MemoryBuffer.
 
 Basic usage, copying everything from IntArray to OnDeviceInts
-* OnDeviceInts.CopyFrom(IntArray, sourceOffset, targetOffset, count)
+* OnDeviceInts.CopyFromCPU(IntArray)
 
-This works as you would expect. Starting at sourceOffset in IntArray and targetOffset in OnDeviceInts it 
-copies count values from IntArray into OnDeviceInts.
-
-#### CopyTo
-To copy memory out of a MemoyView and into an array on device you use CopyTo.
+#### CopyToCPU
+To copy memory out of a MemoyView and into an array on device you use CopyToCPU.
 
 Basic usage, copying everything from OnDeviceInts to IntArray
-* OnDeviceInts.CopyTo(IntArray, sourceOffset, targetOffset, count)
-
-This works just like CopyFrom, just backwards. Starting at sourceOffset in OnDeviceInts and targetOffset in IntArray it 
-copies count values from OnDeviceInts into IntArray.
-
-In both CopyTo and CopyFrom setting sourceOffset and targetOffset to 0 and count to IntArray.Length would copy all
-values.
-* OnDeviceInts.CopyFrom(IntArray, 0, 0, IntArray.Length)
-* OnDeviceInts.CopyTo(IntArray, 0, 0, IntArray.Length)
-
+* OnDeviceInts.CopyToCPU(IntArray)
 
 # ArrayView\<T\>
 The ArrayView is the device side copy of memory allocated on the device via the host. This is the side of the MemoryBuffer
@@ -72,7 +60,7 @@ API that the kernels / GPU will interact with.
 
 * always obtained from a MemoryBuffer
 * requires: using ILGPU.Runtime;
-* basic constructing: ArrayView\<int\> ints = OnDeviceInts.View;
+* basic constructing: ArrayView1D\<int, Stride1D.Dense\> ints = OnDeviceInts.View;
 
 Inside the kernel the ArrayView works exactly like you would expect a normal array to. Again, more on that in the 
 Kernel tutorial.
@@ -121,7 +109,7 @@ public static class Program
         // There are also helper functions, but be aware of what a function does.
         // As an example this function is shorthand for the above two lines.
         // This completely allocates a new double[] on the host. This is slow.
-        double[] doubles3 = doublesOnDevice.GetAs1DArray();
+        double[] doubles3 = doublesOnDevice.GetAsArray1D();
 
         // Notice that you cannot access memory in a MemoryBuffer or an ArrayView from host code.
         // If you uncomment the following lines they should crash.

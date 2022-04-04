@@ -29,7 +29,7 @@ a single value into the GPU you can allocate an array of size 1 or pass it into 
 parameter, more on this in the Kernel tutorial and the Structs tutorial.
 
 NOTE 2 (Return of the note): ILGPU 1.0 adds stride data to MemoryBuffer and ArrayView to fix 
-some issues. *IMPORTANT:* When in doubt use Stride1D.Dense, Stride2D.DenseY, or Stride2D.DenseZY.
+some issues. *IMPORTANT:* When in doubt use Stride1D.Dense, Stride2D.DenseY, or Stride3D.DenseZY.
 I will go over this better in a striding tutorial, but these should be your defaults because they 
 require they match how C# strides 1D, 2D, and 3D arrays.
 
